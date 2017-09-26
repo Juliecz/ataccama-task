@@ -9,13 +9,23 @@ class Table extends Component {
 			content: props.content.map((row) => ({ ...row, showKids: false })),
 			name: props.name,
 			showFirst: props.content.filter((row) => Object.keys(row.kids).length>0).length > 0
-		}
+		};
+		this.showKids = this.showKids.bind(this);
+		this.removeRecord = this.removeRecord.bind(this);
 	}
 	
 	showKids = (i) => {
 		const arr = [...this.state.content];
 		arr[i].showKids = !arr[i].showKids;
 		this.setState({ content: arr });
+	};
+	
+	removeRecord = (data, i, row) => {
+		const arr = [...this.state.content];
+		(data.length > 0)
+			? arr[i].kids[Object.keys(row.kids)[0]].records = data
+			: arr[i].kids = {};
+		this.props.removeRecord(arr);
 	};
 	
 	componentWillReceiveProps(nextProps) {
@@ -69,13 +79,7 @@ class Table extends Component {
 						<Table
 							content={row.kids[Object.keys(row.kids)[0]].records}
 							name={Object.keys(row.kids)[0]}
-							removeRecord={(data) => {
-								const arr = [...content];
-								(data.length > 0)
-									? arr[i].kids[Object.keys(row.kids)[0]].records = data
-									: arr[i].kids = {};
-								removeRecord(arr);
-							}}
+							removeRecord={(data) => this.removeRecord(data, i, row)}
 						/>
 					</td>
 				</tr>}
