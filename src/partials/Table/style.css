@@ -1,0 +1,23 @@
+.p-table {
+    margin: auto;
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+}
+
+th {
+    background-color: #f6f6f6;
+    font-size: small;
+}
+
+td {
+    padding: 5px 5px 5px 10px;
+    border: 1px solid #cecece;
+    min-width: 30px;
+    font-size: smaller;
+}
+
+td:first-child {
+    padding: 0;
+    text-align: center;
+}

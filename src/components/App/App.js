@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getData } from '../../actions/actions';
 
+import Info from '../Info/index';
 import './style.css';
 
 class AppComponent extends Component {
@@ -17,7 +18,7 @@ class AppComponent extends Component {
 					<h2>Ataccama - Task</h2>
 				</div>
 				<div className="app-content">
-
+					<Info />
 				</div>
 			</div>
 		);
