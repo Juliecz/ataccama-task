@@ -29,9 +29,7 @@ const mapStateToProps = (state) => ({});
 
 const App = connect(
 	mapStateToProps,
-	{
-		getData
-	}
+	{ getData }
 )(AppComponent);
 
 export default App;

@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 
-import Table from '../../partials/Tables/Table';
+import Table from '../Table/Table';
 import './style.css';
 
 class Info extends Component {
 	render() {
+		const { data, removeRecord } = this.props;
+		
 		return (<div className="c-info">
-			<Table data={this.props.data}/>
+			{ data && data.length > 0
+			&& <Table
+				content={this.props.data}
+				removeRecord={removeRecord}
+			/>}
 		</div>);
 	}
 }

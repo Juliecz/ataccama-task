@@ -18,7 +18,10 @@ td {
     font-size: 11px;
 }
 
-td:first-child {
+td:first-child, td:last-child {
     padding: 0;
     text-align: center;
+}
+td span.glyphicon-remove {
+    color: #bb0000;
 }
