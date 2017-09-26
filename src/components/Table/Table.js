@@ -7,7 +7,8 @@ class Table extends Component {
 		super(props);
 		this.state = {
 			content: props.content.map((row) => ({ ...row, showKids: false })),
-			name: props.name
+			name: props.name,
+			showFirst: props.content.filter((row) => Object.keys(row.kids).length>0).length > 0
 		}
 	}
 	
@@ -19,12 +20,13 @@ class Table extends Component {
 	
 	componentWillReceiveProps(nextProps) {
 		this.setState({
-			content: nextProps.content.map((row) => ({ ...row, showKids: false }))
+			content: nextProps.content.map((row) => ({ ...row })),
+			showFirst: nextProps.content.filter((row) => Object.keys(row.kids).length>0).length > 0
 		});
 	}
 	
 	render() {
-		const { content, name } = this.state;
+		const { content, name, showFirst } = this.state;
 		const { removeRecord } = this.props;
 
 		return (<BTable bordered className="p-table">
@@ -32,22 +34,22 @@ class Table extends Component {
 				(<tbody key={`tbody_${i}`}>
 				
 				{name && i===0 && <tr className="p-table-name">
-					<td colSpan={Object.keys(row.data).length+2}>{ name }</td>
+					<td colSpan={Object.keys(row.data).length + (showFirst ? 2 : 1)}>{ name }</td>
 				</tr>}
 				
 				{ i===0 && <tr>
-					<th />
+					{showFirst && <th />}
 					
 					{ Object.keys(row.data).map((key, i) =>
 						(<th key={`th_${i}`}>{ key }</th>)) }
-					
 					<th />
 				</tr> }
 				<tr>
-					{(row.kids && Object.keys(row.kids).length > 0)
+					{showFirst
+					&& (row.kids && Object.keys(row.kids).length > 0
 						? <td onClick={() => this.showKids(i)}>
 							<Glyphicon glyph={ row.showKids ? 'triangle-bottom' : 'triangle-right'}/>
-						</td> : <td /> }
+						</td> : <td />)}
 					
 					{ Object.values(row.data).map((value, i) =>
 						(<td key={`td_${i}`}>{ value }</td>)) }
@@ -55,7 +57,6 @@ class Table extends Component {
 					<td onClick={() => {
 						const arr = [...content];
 						arr.splice(i, 1);
-						// this.setState({ content: arr });
 						removeRecord(arr);
 					}}>
 						<Glyphicon glyph="remove"/>
@@ -64,7 +65,7 @@ class Table extends Component {
 				
 				{(row.kids && row.showKids && Object.keys(row.kids).length > 0)
 				&& <tr>
-					<td colSpan={Object.keys(row.data).length+2}>
+					<td colSpan={Object.keys(row.data).length + (showFirst ? 2 : 1)}>
 						<Table
 							content={row.kids[Object.keys(row.kids)[0]].records}
 							name={Object.keys(row.kids)[0]}
