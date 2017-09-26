@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Table as BTable, Glyphicon } from 'react-bootstrap';
 import './style.css';
 
-const Table = ({ content }) =>
+const Table = ({ content, name }) =>
 	(<BTable bordered className="p-table">
 		{ content.map((row, i) =>
 			(<tbody key={`tbody_${i}`}>
+			
+			{name && i===0 && <tr className="p-table-name">
+				<td colSpan={Object.keys(row.data).length+1}>{ name }</td>
+			</tr>}
+			
 			{ i===0 && <tr>
 				<th />
 				{ Object.keys(row.data).map((key, i) =>
@@ -24,7 +29,10 @@ const Table = ({ content }) =>
 			{(row.kids && Object.keys(row.kids).length > 0)
 			&& <tr>
 				<td colSpan={Object.keys(row.data).length+1}>
-					table ....
+					<Table
+						content={row.kids[Object.keys(row.kids)[0]].records}
+						name={Object.keys(row.kids)[0]}
+					/>
 				</td>
 			</tr>}
 			</tbody>))

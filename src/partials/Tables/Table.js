@@ -1,5 +1,4 @@
 import React from 'react';
-import { Table as BTable, Glyphicon } from 'react-bootstrap';
 import Table from '../Table/Table';
 
 const Tables = ({ data }) =>
